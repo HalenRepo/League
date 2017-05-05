@@ -17,6 +17,7 @@ namespace HalenAIO.Champions
 			R.SetSkillshot(1.1f, 160f, 2000f, false, SkillshotType.SkillshotLine);
 			
 			//Menu items for customisation here, such as min mana for harass etc.
+			Config.SubMenu(Player.ChampionName).addItem(new MenuItem("stackTear", "Auto stack tear", true).SetValue(true));
 			
 			Game.OnUpdate += Game_OnUpdate;
 			Drawing.OnDraw += Drawing_OnDraw;

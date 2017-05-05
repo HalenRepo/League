@@ -36,6 +36,10 @@ namespace HalenAIO
 				case "Nidalee":
 				new Champions.Nidalee();
 				break;
+				
+				case "Twitch":
+				new Champions.Twitch();
+				break;
 			}
 			
 			//Use SDK prediction here.

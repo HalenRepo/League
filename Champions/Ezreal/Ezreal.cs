@@ -13,11 +13,14 @@ namespace HalenAIO.Champions
 			R = new Spell(SpellSlot.R, 3000f);
 			
 			Q.SetSkillshot(0.25f, 60f, 2000f, true, SkillshotType.SkillshotLine);
-            W.SetSkillshot(0.25f, 80f, 1600f, false, SkillshotType.SkillshotLine);
+			W.SetSkillshot(0.25f, 80f, 1600f, false, SkillshotType.SkillshotLine);
 			R.SetSkillshot(1.1f, 160f, 2000f, false, SkillshotType.SkillshotLine);
 			
 			//Menu items for customisation here, such as min mana for harass etc.
 			Config.SubMenu(Player.ChampionName).addItem(new MenuItem("stackTear", "Auto stack tear", true).SetValue(true));
+			Config.SubMenu(Player.ChampionName).addItem(new MenuItem("autoW", "Auto W push", true).SetValue(true));
+			Config.SubMenu(Player.ChampionName).addItem(new MenuItem("smartE", "Smart E", true).SetValue(true));
+			
 			
 			Game.OnUpdate += Game_OnUpdate;
 			Drawing.OnDraw += Drawing_OnDraw;
@@ -28,6 +31,16 @@ namespace HalenAIO.Champions
 			if (Q.IsReady())
 			{
 				CheckQ();
+			}
+			
+			if (W.IsReady() && Config.Item("autoW", true).GetValue<bool>())
+			{
+				CheckW();
+			}
+			
+			if (E.IsReady())
+			{
+				CheckE();
 			}
 		}
 		
@@ -52,6 +65,29 @@ namespace HalenAIO.Champions
 				Q.Cast(Player.Position.Extend(Game.CursorPos, 500)); //Cast to mousepos
 			}
 			
+		}
+		
+		public void CheckW()
+		{
+			//Code for harassW can be here, but to me that's just dumb.
+			
+			
+		}
+		
+		public void CheckE()
+		{
+			var t = TargetSelector.GetTarget(1300, TargetSelectorDamageType.Physical);
+			
+			if (Config.Item("smartE", true).GetValue<bool>())
+			{
+				//The below code needs to be used with the inbuilt SDK prediction or custom prediction.
+				/*if (HeroManager.Enemies.Any(target => target.IsValidTarget(1000) && target.IsMelee && Player.Distance(Prediction.GetPrediction(target, 0.2f).CastPosition) < 250))
+				{
+					//Safe dash logic code here
+					
+				}
+					*/
+			}
 		}
 	}
 }

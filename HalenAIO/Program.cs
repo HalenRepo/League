@@ -6,7 +6,7 @@ namespace HalenAIO
 	class Program
 	{
 		//Supported champions
-		public static string[] ChampList = { "Ezreal", "Nidalee" };
+		public static string[] ChampList = { "Ezreal", "Nidalee", "Twitch" };
 		public static Spell Q, W, E, R;
 		private static string DevLog = "(WIP)";
 		

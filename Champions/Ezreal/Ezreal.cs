@@ -1,4 +1,5 @@
 //Usings
+using System;
 
 namespace HalenAIO.Champions
 {
@@ -23,33 +24,33 @@ namespace HalenAIO.Champions
 		
 		public Game_OnUpdate(EventArgs args)
 		{
-			if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
+			if (Q.IsReady())
 			{
-				Combo();
-			}
-			
-			if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
-			{
-				Harass();
-			}
-			
-			if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
-			{
-				LaneClear();
+				CheckQ();
 			}
 		}
 		
-		public static void Combo()
+		public void CheckQ()
 		{
-			if (Q.IsReady()) //if spell is ready
+			if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) //You should add a mana check here according to menu.
 			{
-				var target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Physical); //Get target via SDK.
-				
+				var t = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Physical);
 				if (t.IsValidTarget())
 				{
-					Q.Cast(t); //Cast at target.
+					Q.Cast(t); //Either use SDK inbuilt prediction or custom prediction here.
+					
+					//Possible KS code here as well.
+					
 				}
+			} else if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Harass) //You should add a mana check here, as well as a target check (whether you want to harass a champion or not which is useful for bot) here.
+			{
+				Q.Cast(t); //Either use SDK inbuilt prediction or custom prediction here.
+			} else if (Config.Item("stackTear", true).GetValue<bool>() && Utils.TickCount - Q.LastCastAttemptT > 4000 && !Player.hasBuff("Recall") && Player.Mana > Player.MaxMana * 0.95 && Orbwalker.ActiveMode == None && (Items.HasItem(3070) || Items.HasItem(3004)))
+			{
+				//Tear stacking. Check - if menu item is checked, if we can stack the tear (cooldown), if player's current mana is more than 95% of max, if they are not orbwalking and if they have a tear/manamune.
+				Q.Cast(Player.Position.Extend(Game.CursorPos, 500)); //Cast to mousepos
 			}
+			
 		}
 	}
 }

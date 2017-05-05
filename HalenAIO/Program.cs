@@ -2,7 +2,7 @@
 
 namespace HalenAIO
 {
-	Class Program
+	class Program
 	{
 		//Supported champions
 		public static string[] ChampList = { "Ezreal" };
